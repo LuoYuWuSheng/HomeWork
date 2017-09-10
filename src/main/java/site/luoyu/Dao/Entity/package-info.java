@@ -1,8 +1,6 @@
-package site.luoyu.Dao;
-
 /**
  * Computer user xd
  * Created by 张洋 on 2017/9/10.
+ * 订单表示实体
  */
-public interface IOrder  {
-}
+package site.luoyu.Dao.Entity;

@@ -4,8 +4,6 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 
-import java.util.concurrent.CountDownLatch;
-
 /**
  * CourtManager Tester.
  *
@@ -26,12 +24,26 @@ public class CourtManagerTest {
     }
 
     /**
-     * Method: handleInput(String input)
+     * Method: addOrder(IOrder order)
      */
     @Test
-    public void testHandleInput() throws Exception {
+    public void testAddOrder() throws Exception {
         //TODO: Test goes here...
     }
 
+    /**
+     * Method: cancleOrder(IOrder order)
+     */
+    @Test
+    public void testCancleOrder() throws Exception {
+        //TODO: Test goes here...
+    }
 
+    /**
+     * Method: printMoneyNow()
+     */
+    @Test
+    public void testPrintMoneyNow() throws Exception {
+        //TODO: Test goes here...
+    }
 } 
