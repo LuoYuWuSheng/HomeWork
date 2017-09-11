@@ -77,16 +77,16 @@ public class CourtManager {
             //星期六，星期天
             if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) {
                 for (int i = start; i < end; i++) {
+                    if (9 <= i && i < 12) cost += 40;
+                    else if (12 <= i && i < 18) cost += 50;
+                    else if (18 <= i && i < 22) cost += 60;
+                }
+            } else {
+                for (int i = start; i < end; i++) {
                     if (9 <= i && i < 12) cost += 30;
                     else if (12 <= i && i < 18) cost += 50;
                     else if (18 <= i && i < 20) cost += 80;
                     else if (20 <= i && i < 22) cost += 60;
-                }
-            } else {
-                for (int i = start; i < end; i++) {
-                    if (9 <= i && i < 12) cost += 40;
-                    else if (12 <= i && i < 18) cost += 50;
-                    else if (18 <= i && i < 22) cost += 60;
                 }
             }
             order.setCost(cost);

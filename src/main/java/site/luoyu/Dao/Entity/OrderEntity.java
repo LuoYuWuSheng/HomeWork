@@ -58,8 +58,8 @@ public class OrderEntity {
         StringBuilder result = new StringBuilder();
         result.append(date.format(DateFormat)+" ");
         result.append(start.format(HourFormat)+"~"+end.format(HourFormat)+" ");
-        if(type==OrderType.add)result.append(cost+"元");
-        else result.append("违约金 "+cost+"元");
+        if(type==OrderType.add)result.append((int) cost+"元");
+        else result.append("违约金 "+(int)cost+"元");
         return result.toString();
     }
 

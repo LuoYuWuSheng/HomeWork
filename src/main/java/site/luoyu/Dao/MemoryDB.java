@@ -18,9 +18,14 @@ import java.util.*;
 public class MemoryDB  implements DBAccess{
     //球场管理的存储类,每个球场对应一个Map，该球场订单通过Map来管理。这里的Map都用treeMap实现类，加快查找速度。
     //每天的订单都不多，增加，删除的操作也不会很频繁。所以用ArrayList就行。
-    Map<String,Map<LocalDate,ArrayList<OrderEntity>>> map = new TreeMap<>();
+    private Map<String,Map<LocalDate,ArrayList<OrderEntity>>> map = new TreeMap<>();
 
-    public boolean addIfNotExist(OrderEntity newOrder) throws CourtNotExistException, TimeConfictException {
+    public Map<String, Map<LocalDate, ArrayList<OrderEntity>>> getMap() {
+        return map;
+    }
+
+    //是否添加成功，成功返回true，有冲突则false
+    public boolean addIfNotExist(OrderEntity newOrder) throws CourtNotExistException {
         Map<LocalDate,ArrayList<OrderEntity>> court = map.get(newOrder.getCourtId());
         if(court==null)throw new CourtNotExistException();
         ArrayList<OrderEntity> orderList = court.get(newOrder.getDate());
@@ -35,8 +40,8 @@ public class MemoryDB  implements DBAccess{
             for (OrderEntity oldOrder:orderList) {
                 //发现是取消订单则跳过
                 if(oldOrder.getType()==OrderEntity.OrderType.cancle)continue;
-                if(oldOrder.getStart().compareTo(newOrder.getEnd())<=0||
-                        oldOrder.getEnd().compareTo(newOrder.getStart())>=0){
+                if(oldOrder.getStart().compareTo(newOrder.getEnd())>=0||
+                        oldOrder.getEnd().compareTo(newOrder.getStart())<=0){
                     confilct=false;
                 }else {
                     confilct=true;
@@ -44,7 +49,8 @@ public class MemoryDB  implements DBAccess{
                 }
             }
             //有冲突抛出异常
-            if(confilct)throw new TimeConfictException();
+//            if(confilct)throw new TimeConfictException();
+            if(confilct)return false;
             else {
                 //没冲突加入订单。
                 orderList.add(newOrder);
@@ -82,17 +88,25 @@ public class MemoryDB  implements DBAccess{
 
     public void print(String[] CourtIds) {
         System.out.println("收入汇总\n---");
-        for (String id : CourtIds) {
+        int all = 0;
+        for (int i = 0; i < CourtIds.length; i++) {
+            String id = CourtIds[i];
             System.out.println("场地:"+id);
             Map<LocalDate,ArrayList<OrderEntity>> court = map.get(id);
+            int oneCort = 0;
             for (Map.Entry<LocalDate,ArrayList<OrderEntity>> entry :court.entrySet()) {
                 ArrayList<OrderEntity> orderList = entry.getValue();
                 //lambuda表达式，对订单进行排序
-                Collections.sort(orderList, Comparator.comparing(OrderEntity::getStart));
+                orderList.sort(Comparator.comparing(OrderEntity::getStart));
                 for (OrderEntity order : orderList) {
+                    oneCort+=order.getCost();
                     System.out.println(order.printOrderMoney());
                 }
             }
+            System.out.println("小计: "+oneCort+"元");
+            if(i!=CourtIds.length-1) System.out.println();
+            all+=oneCort;
         }
+        System.out.println("---\n总计: "+all+"元");
     }
 }
