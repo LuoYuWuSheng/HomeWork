@@ -11,7 +11,7 @@ import site.luoyu.Exception.TimeConfictException;
  */
 public interface DBAccess {
     //如果没有冲突就添加;
-    public boolean addIfNotExist(OrderEntity order) throws CourtNotExistException, TimeConfictException;
+    public boolean addIfNotExist(OrderEntity order) throws CourtNotExistException;
     //取消订单
     public boolean cancle(OrderEntity order);
     //打印当前收入

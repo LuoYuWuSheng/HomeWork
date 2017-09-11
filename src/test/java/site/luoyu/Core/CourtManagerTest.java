@@ -47,7 +47,6 @@ public class CourtManagerTest {
     @Test
     public void testAddOrder() throws Exception {
         int index = 0;
-
     }
 
     /**
@@ -55,7 +54,12 @@ public class CourtManagerTest {
      */
     @Test
     public void testCancleOrder() throws Exception {
-        //TODO: Test goes here...
+        manager.addOrder(testList[0]);
+        manager.cancleOrder(testList[5]);
+        String result = bytes.toString();
+        String expect = "Success: the booking is accepted!\r\n" +
+                "Success: the booking is accepted!\r\n";
+        Assert.assertEquals(expect,result);
     }
 
     /**
@@ -65,21 +69,9 @@ public class CourtManagerTest {
     public void testPrintMoneyNow() throws Exception {
 //        System.setOut(console);
         manager.printMoneyNow();
-        Assert.assertEquals("收入汇总\n" +
-                "---\n" +
-                "场地:A\n" +
-                "小计: 0元\n" +
-                "\n" +
-                "场地:B\n" +
-                "小计: 0元\n" +
-                "\n" +
-                "场地:C\n" +
-                "小计: 0元\n" +
-                "\n" +
-                "场地:D\n" +
-                "小计: 0元\n" +
-                "---\n" +
-                "总计: 0元\n",bytes.toString());
+        String expect = "收入汇总\n---\r\n场地:A\r\n小计: 0元\r\n\r\n场地:B\r\n小计: 0元\r\n\r\n" +
+                "场地:C\r\n小计: 0元\r\n\r\n场地:D\r\n小计: 0元\r\n---\n总计: 0元\r\n";
+        Assert.assertEquals(expect,bytes.toString());
     }
 
     /**

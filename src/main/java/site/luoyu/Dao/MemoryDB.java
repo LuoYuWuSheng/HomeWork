@@ -50,7 +50,9 @@ public class MemoryDB  implements DBAccess{
             }
             //有冲突抛出异常
 //            if(confilct)throw new TimeConfictException();
-            if(confilct)return false;
+            if(confilct){
+                return false;
+            }
             else {
                 //没冲突加入订单。
                 orderList.add(newOrder);
@@ -74,9 +76,9 @@ public class MemoryDB  implements DBAccess{
                 LocalDate date = order.getDate();
                 double cost = order.getCost();
                 if(date.getDayOfWeek()== DayOfWeek.SATURDAY||date.getDayOfWeek()==DayOfWeek.SUNDAY){
-                    cost*=0.5;
-                }else {
                     cost*=0.25;
+                }else {
+                    cost*=0.5;
                 }
                 order.setCost(cost);
                 order.setType(OrderEntity.OrderType.cancle);

@@ -29,14 +29,17 @@ public class CourtManager {
     public void addOrder(OrderEntity order) {
         if (check(order)) {
             setCost(order);
+            boolean res = false;
             try {
-                boolean res = db.addIfNotExist(order);
+                res = db.addIfNotExist(order);
             } catch (CourtNotExistException e) {
                 System.out.println("Error: the booking is invalid!");
-            } catch (TimeConfictException e) {
-                System.out.println("Error: the booking conflicts with existing bookings!");
             }
-            System.out.println("Success: the booking is accepted!");
+            if(!res){
+                System.out.println("Error: the booking conflicts with existing bookings!");
+            }else {
+                System.out.println("Success: the booking is accepted!");
+            }
         } else {
             System.out.println("Error: the booking is invalid!");
         }

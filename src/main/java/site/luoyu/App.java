@@ -19,7 +19,7 @@ public class App {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        while (sc.hasNext()) {
+        while (sc.hasNextLine()) {
             String line = sc.nextLine();
             //空行打印当前收入
             if (line.equals("")) {
@@ -29,12 +29,12 @@ public class App {
                 OrderEntity order = null;
                 try {
                     order = handleInput(line);
+                    if (order.getType() == OrderEntity.OrderType.add) {
+                        manager.addOrder(order);
+                    } else manager.cancleOrder(order);
                 } catch (InputFormatException e) {
                     System.out.println("Error: the booking is invalid!");
                 }
-                if (order.getType() == OrderEntity.OrderType.add) {
-                    manager.addOrder(order);
-                } else manager.cancleOrder(order);
             }
         }
     }
