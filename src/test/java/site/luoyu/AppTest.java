@@ -4,6 +4,9 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * App Tester.
  *
@@ -29,7 +32,8 @@ public class AppTest {
      */
     @Test
     public void testMain() throws Exception {
-//TODO: Test goes here...
+        LocalTime time = LocalTime.now();
+        System.out.println(time.format(DateTimeFormatter.ofPattern("HH:mm")));
     }
 
     /**

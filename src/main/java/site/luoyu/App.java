@@ -70,7 +70,8 @@ public class App {
                 throw new InputFormatException();
             }
             LocalDateTime submitTime = LocalDateTime.now();
-            //判断输入的时间是不是过去时
+            //判断输入的时间是不是过去时。还有比如五点半的时候用户预订五点到六点的场次本系统结果为订单不成功
+            //如果想改变这种情况只需要将结束时间与当前时间对比即可，这个在作业描述中没有明确说明处理方式，我觉得拒绝更合理。所以实现的是拒绝
             if(submitTime.compareTo(LocalDateTime.of(date,start))>0){
                 throw new InputFormatException();
             }
