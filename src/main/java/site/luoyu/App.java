@@ -15,9 +15,10 @@ import java.util.Scanner;
  */
 public class App {
     //管理类
-    private static CourtManager manager = new CourtManager();
+    private static CourtManager manager;
 
     public static void main(String[] args) {
+        manager= new CourtManager();
         Scanner sc = new Scanner(System.in);
         while (sc.hasNextLine()) {
             String line = sc.nextLine();

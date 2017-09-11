@@ -6,6 +6,9 @@ import org.junit.Before;
 import org.junit.After;
 import site.luoyu.TestData;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 /**
  * OrderEntity Tester.
  *
@@ -16,9 +19,14 @@ import site.luoyu.TestData;
 public class OrderEntityTest {
     TestData testData;
     OrderEntity entity;
+    PrintStream console;
+    ByteArrayOutputStream bytes;
     @Before
     public void before() throws Exception {
         testData = new TestData();
+        bytes = new ByteArrayOutputStream();
+        console = System.out;
+        System.setOut(new PrintStream(bytes));
     }
 
     @After
@@ -41,10 +49,10 @@ public class OrderEntityTest {
      */
     @Test
     public void testPrintOrderMoney() throws Exception {
-        for (int i = 0; i < testData.getTestData().length; i++) {
-            OrderEntity order = testData.getTestData()[i];
-            System.out.println(order.printOrderMoney());
-        }
+        System.setOut(console);
+        String expect = "2018-08-01 19:00~22:00 0元";
+        OrderEntity order = testData.getTestData()[0];
+        Assert.assertEquals(expect,order.printOrderMoney());
     }
 
     @Test
