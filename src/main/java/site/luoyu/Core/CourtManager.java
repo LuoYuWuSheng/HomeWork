@@ -20,8 +20,9 @@ public class CourtManager {
 
     DBAccess db = new MemoryDB();
 
+    String[] courtIds = {"A", "B", "C", "D"};
+
     public CourtManager() {
-        String[] courtIds = {"A", "B", "C", "D"};
         db.initDB(courtIds);
     }
 
@@ -44,16 +45,17 @@ public class CourtManager {
     public void cancleOrder(OrderEntity order) {
         if (check(order)) {
             boolean result = db.cancle(order);
-            if(result){
+            if (result) {
                 System.out.println("Success: the booking is accepted!");
-            }else System.out.println("Error: the booking being cancelled does not exist!");
+            } else System.out.println("Error: the booking being cancelled does not exist!");
         } else {
             System.out.println("Error: the booking is invalid!");
         }
     }
+
     //todo 最后一个，打印场地费
     public void printMoneyNow() {
-
+        db.print(courtIds);
     }
 
     //检验是否是在球场工作时间内

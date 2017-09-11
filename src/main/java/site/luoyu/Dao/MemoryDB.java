@@ -6,9 +6,7 @@ import site.luoyu.Exception.TimeConfictException;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Computer user xd
@@ -82,6 +80,19 @@ public class MemoryDB  implements DBAccess{
         return false;
     }
 
-    public void print() {
+    public void print(String[] CourtIds) {
+        System.out.println("收入汇总\n---");
+        for (String id : CourtIds) {
+            System.out.println("场地:"+id);
+            Map<LocalDate,ArrayList<OrderEntity>> court = map.get(id);
+            for (Map.Entry<LocalDate,ArrayList<OrderEntity>> entry :court.entrySet()) {
+                ArrayList<OrderEntity> orderList = entry.getValue();
+                //lambuda表达式，对订单进行排序
+                Collections.sort(orderList, Comparator.comparing(OrderEntity::getStart));
+                for (OrderEntity order : orderList) {
+                    System.out.println(order.printOrderMoney());
+                }
+            }
+        }
     }
 }

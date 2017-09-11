@@ -15,7 +15,7 @@ public interface DBAccess {
     //取消订单
     public boolean cancle(OrderEntity order);
     //打印当前收入
-    public void print();
+    public void print(String[] courtIds);
     //初始化数据库
     public void initDB(String[] courtIds);
 }

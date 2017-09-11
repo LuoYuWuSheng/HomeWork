@@ -3,14 +3,18 @@ package site.luoyu.Dao.Entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Computer user xd
  * Created by 张洋 on 2017/9/10.
  * 抽象的订单只包含日期，提交日期，费用等基本信息。
  */
-public abstract class OrderEntity
-{
+public class OrderEntity {
+    //日期与时间格式
+    public static final DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public static final DateTimeFormatter HourFormat = DateTimeFormatter.ofPattern("HH:mm");
+
     public enum OrderType {add, cancle}
 
     //用户Id
@@ -41,14 +45,22 @@ public abstract class OrderEntity
     }
 
     //用户取消订单是判断是否是其之前下过的订单。
-    public boolean canCancle(OrderEntity other){
-        if(this.getUID().equals(other.getUID())&&
-                this.getStart().compareTo(other.getStart())==0&&
-                this.getEnd().compareTo(other.getEnd())==0&&
-                this.type==OrderType.add){
+    public boolean canCancle(OrderEntity other) {
+        if (this.getUID().equals(other.getUID()) &&
+                this.getStart().compareTo(other.getStart()) == 0 &&
+                this.getEnd().compareTo(other.getEnd()) == 0 &&
+                this.type == OrderType.add) {
             return true;
-        }
-        else return false;
+        } else return false;
+    }
+
+    public String printOrderMoney() {
+        StringBuilder result = new StringBuilder();
+        result.append(date.format(DateFormat)+" ");
+        result.append(start.format(HourFormat)+"~"+end.format(HourFormat)+" ");
+        if(type==OrderType.add)result.append(cost+"元");
+        else result.append("违约金 "+cost+"元");
+        return result.toString();
     }
 
     //以下都是getter与setter方法

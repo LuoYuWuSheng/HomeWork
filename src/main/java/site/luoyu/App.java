@@ -7,7 +7,6 @@ import site.luoyu.Exception.InputFormatException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
@@ -49,9 +48,8 @@ public class App {
             String uid = temp[0];
             //UID为空则报错
             if (uid.equals("")) throw new InputFormatException();
-            DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            DateTimeFormatter HourFormat = DateTimeFormatter.ofPattern("HH:mm");
-            LocalDate date = LocalDate.parse(temp[1], DateFormat);
+
+            LocalDate date = LocalDate.parse(temp[1], OrderEntity.DateFormat);
             //不能按照~分割则输入异常
             String[] StringTime = temp[2].split("~");
             if (StringTime.length != 2) throw new InputFormatException();
@@ -59,8 +57,8 @@ public class App {
             LocalTime end;
             try {
                 //利用java8时间类来检测输入格式
-                start = LocalTime.parse(StringTime[0], HourFormat);
-                end = LocalTime.parse(StringTime[1], HourFormat);
+                start = LocalTime.parse(StringTime[0], OrderEntity.HourFormat);
+                end = LocalTime.parse(StringTime[1], OrderEntity.HourFormat);
                 //检测输入是否是整点，至于是否在合法预定时间内则需要在CourtManage中处理，因为这样方便修改球场开放时间
                 //开始时间比结束时间晚，报错。
                 if (start.getMinute() != 0 || end.getMinute() != 0 ||
