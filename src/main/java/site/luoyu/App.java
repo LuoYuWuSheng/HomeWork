@@ -1,8 +1,8 @@
 package site.luoyu;
 
 import site.luoyu.Core.CourtManager;
-import site.luoyu.Dao.Entity.IOrder;
-import site.luoyu.Dao.Entity.OrderImpl;
+import site.luoyu.Dao.Entity.OrderEntity;
+import site.luoyu.Exception.InputFormatException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,20 +27,20 @@ public class App {
                 manager.printMoneyNow();
             } else {
                 //其他订单则判断输入合法性并插入记录
-                IOrder order = null;
+                OrderEntity order = null;
                 try {
                     order = handleInput(line);
                 } catch (InputFormatException e) {
                     System.out.println("Error: the booking is invalid!");
                 }
-                if (order.getType() == IOrder.OrderType.add) {
+                if (order.getType() == OrderEntity.OrderType.add) {
                     manager.addOrder(order);
                 } else manager.cancleOrder(order);
             }
         }
     }
 
-    public static IOrder handleInput(String input) throws InputFormatException {
+    public static OrderEntity handleInput(String input) throws InputFormatException {
 
         String[] temp = input.split("\\s{1,}");
         if (temp.length < 4 || temp.length > 5) {
@@ -76,12 +76,12 @@ public class App {
                 throw new InputFormatException();
             }
             String courtId = temp[3];
-            IOrder order = new OrderImpl(uid, date, start, end, submitTime, courtId);
+            OrderEntity order = new OrderEntity(uid, date, start, end, submitTime, courtId);
             //判断是下单还是取消，不满足情况则抛出异常
             if (temp.length == 4) {
-                order.setType(IOrder.OrderType.add);
+                order.setType(OrderEntity.OrderType.add);
             } else if (temp[4].equals("C")) {
-                order.setType(IOrder.OrderType.cancle);
+                order.setType(OrderEntity.OrderType.cancle);
             } else {
                 throw new InputFormatException();
             }

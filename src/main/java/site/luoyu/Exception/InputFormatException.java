@@ -1,4 +1,4 @@
-package site.luoyu;
+package site.luoyu.Exception;
 
 /**
  * Computer user xd

@@ -1,8 +1,10 @@
 package site.luoyu.Core;
 
 import site.luoyu.Dao.DBAccess;
-import site.luoyu.Dao.Entity.IOrder;
+import site.luoyu.Dao.Entity.OrderEntity;
 import site.luoyu.Dao.MemoryDB;
+import site.luoyu.Exception.CourtNotExistException;
+import site.luoyu.Exception.TimeConfictException;
 
 /**
  * Computer user xd
@@ -14,16 +16,23 @@ public class CourtManager {
 
     DBAccess db = new MemoryDB();
 
-    public void addOrder(IOrder order) {
-        boolean res = db.addIfNotExist(order);
-        if (res) {
-            System.out.println("Error: the booking is invalid!");
-        } else {
-            System.out.println("Success: the booking is accepted!");
-        }
+    public CourtManager() {
+        char[] courtIds = {'A', 'B', 'C', 'D'};
+        db.initDB(courtIds);
     }
 
-    public void cancleOrder(IOrder order) {
+    public void addOrder(OrderEntity order) {
+        try {
+            boolean res = db.addIfNotExist(order);
+        } catch (CourtNotExistException e) {
+            System.out.println("Error: the booking is invalid!");
+        } catch (TimeConfictException e) {
+            System.out.println("Error: the booking conflicts with existing bookings!");
+        }
+        System.out.println("Success: the booking is accepted!");
+    }
+
+    public void cancleOrder(OrderEntity order) {
         db.cancle(order);
     }
 

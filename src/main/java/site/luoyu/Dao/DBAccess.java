@@ -1,6 +1,8 @@
 package site.luoyu.Dao;
 
-import site.luoyu.Dao.Entity.IOrder;
+import site.luoyu.Dao.Entity.OrderEntity;
+import site.luoyu.Exception.CourtNotExistException;
+import site.luoyu.Exception.TimeConfictException;
 
 /**
  * Computer user xd
@@ -9,9 +11,11 @@ import site.luoyu.Dao.Entity.IOrder;
  */
 public interface DBAccess {
     //如果没有冲突就添加;
-    public boolean addIfNotExist(IOrder order);
+    public boolean addIfNotExist(OrderEntity order) throws CourtNotExistException, TimeConfictException;
     //取消订单
-    public boolean cancle(IOrder order);
+    public boolean cancle(OrderEntity order);
     //打印当前收入
     public void print();
+    //初始化数据库
+    public void initDB(char[] courtIds);
 }
