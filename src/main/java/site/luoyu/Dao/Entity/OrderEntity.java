@@ -40,6 +40,17 @@ public abstract class OrderEntity
         this.submitTime = submitTime;
     }
 
+    //用户取消订单是判断是否是其之前下过的订单。
+    public boolean canCancle(OrderEntity other){
+        if(this.getUID().equals(other.getUID())&&
+                this.getStart().compareTo(other.getStart())==0&&
+                this.getEnd().compareTo(other.getEnd())==0&&
+                this.type==OrderType.add){
+            return true;
+        }
+        else return false;
+    }
+
     //以下都是getter与setter方法
     public OrderType getType() {
         return type;

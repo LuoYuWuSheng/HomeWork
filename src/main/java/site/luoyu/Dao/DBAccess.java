@@ -17,5 +17,5 @@ public interface DBAccess {
     //打印当前收入
     public void print();
     //初始化数据库
-    public void initDB(char[] courtIds);
+    public void initDB(String[] courtIds);
 }

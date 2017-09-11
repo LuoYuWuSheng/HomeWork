@@ -4,6 +4,7 @@ import site.luoyu.Dao.Entity.OrderEntity;
 import site.luoyu.Exception.CourtNotExistException;
 import site.luoyu.Exception.TimeConfictException;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.TreeMap;
 public class MemoryDB  implements DBAccess{
     //球场管理的存储类,每个球场对应一个Map，该球场订单通过Map来管理。这里的Map都用treeMap实现类，加快查找速度。
     //每天的订单都不多，增加，删除的操作也不会很频繁。所以用ArrayList就行。
-    Map<Character,Map<LocalDate,ArrayList<OrderEntity>>> map = new TreeMap<>();
+    Map<String,Map<LocalDate,ArrayList<OrderEntity>>> map = new TreeMap<>();
 
     public boolean addIfNotExist(OrderEntity newOrder) throws CourtNotExistException, TimeConfictException {
         Map<LocalDate,ArrayList<OrderEntity>> court = map.get(newOrder.getCourtId());
@@ -54,14 +55,30 @@ public class MemoryDB  implements DBAccess{
         return true;
     }
 
-    public void initDB(char[] courtIds){
+    public void initDB(String[] courtIds){
         for (int i = 0; i < courtIds.length; i++) {
             //这里使用TreeMap加快日期查找速度。
             map.put(courtIds[i],new TreeMap<>());
         }
     }
 
-    public boolean cancle(OrderEntity order) {
+    public boolean cancle(OrderEntity newOrder) {
+        Map<LocalDate,ArrayList<OrderEntity>> court = map.get(newOrder.getCourtId());
+        ArrayList<OrderEntity> orderList = court.get(newOrder.getDate());
+        for (OrderEntity order:orderList) {
+            if(order.canCancle(newOrder)){
+                LocalDate date = order.getDate();
+                double cost = order.getCost();
+                if(date.getDayOfWeek()== DayOfWeek.SATURDAY||date.getDayOfWeek()==DayOfWeek.SUNDAY){
+                    cost*=0.5;
+                }else {
+                    cost*=0.25;
+                }
+                order.setCost(cost);
+                order.setType(OrderEntity.OrderType.cancle);
+                return true;
+            }
+        }
         return false;
     }
 
