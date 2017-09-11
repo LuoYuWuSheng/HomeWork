@@ -14,6 +14,7 @@ import site.luoyu.Exception.TimeConfictException;
  */
 public class CourtManager {
 
+
     DBAccess db = new MemoryDB();
 
     public CourtManager() {
@@ -38,5 +39,15 @@ public class CourtManager {
 
     public void printMoneyNow() {
 
+    }
+    //计算花费，单独函数。如果将来收费策略改变方便修改。
+    public void calcCost(OrderEntity order){
+        //订单收费
+        if(order.getType()==OrderEntity.OrderType.add){
+
+        }else {
+            //取消订单产生的罚金
+
+        }
     }
 }
